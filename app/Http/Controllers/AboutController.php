@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\About;
+use Illuminate\Support\Facades\Storage;
 
 class AboutController extends Controller
 {
@@ -56,7 +57,7 @@ class AboutController extends Controller
      */
     public function edit($id)
     {
-        $about = About::get();
+        $about = About::findOrFail($id);
         return view('layouts.admin.about.edit', compact('about'));
     }
 
@@ -70,7 +71,7 @@ class AboutController extends Controller
     public function update(Request $request, $id)
     {
         
-        $about = About::findOrFail()->update([
+        $about = About::findOrFail($id)->update([
             'history' => $request->history, 
             'title' => $request->title,
             'resume' =>$request->resume

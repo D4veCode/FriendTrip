@@ -7,7 +7,7 @@
             <div class="col-12 col-lg-12">
                 <div class="inner" data-aos-easing="linear" data-aos="fade-right" data-aos-duration="1000">
                     <h1>{{$about->title}}</h1>
-                     <img src="images/{{$about->image}}" id="aboutimg" alt="aboutus">
+                     <img src="{{asset('gallery/'.$about->image)}}" id="aboutimg" alt="aboutus">
                 
                 </div>
             </div>

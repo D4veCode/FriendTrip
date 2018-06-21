@@ -19,7 +19,7 @@
                             <th>Imagen</th>
                             <th>Titulo</th>
                             <th>Descripcion</th>
-                            <th colspan="2">Actiones</th>
+                            <th colspan="2">Acciones</th>
                         </tr>
                         @foreach($galleries as $img)
                         <tr>
@@ -32,6 +32,7 @@
                         </tr>
                         @endforeach
                     </table>
+                    {{ $galleries->links() }}
                 </div>
             </div>
         </div>

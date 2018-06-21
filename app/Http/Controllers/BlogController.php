@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
@@ -46,10 +47,19 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
+        $file_name = "sinimagen.png";
+        if($request->file('image')){
+            $img = $request->file('image');
+            $file_name = $img->getClientOriginalName();
+            Storage::disk('gallery')->put(
+                $file_name,
+                file_get_contents($img->getRealPath())
+            );
+        }
         $post = Post::create([
             'body'=> $request->body,
             'title'=> $request->title,
-            'image'=> $request->image
+            'image'=> $file_name
         ]);
         return redirect()->route('hotels.index')->with('success', 'Post creado');
     }
@@ -74,8 +84,17 @@ class BlogController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $post = Post::findOrFail()->update([
+    {   
+        $file_name = "sinimagen.png";
+        if($request->file('image')){
+            $img = $request->file('image');
+            $file_name = $img->getClientOriginalName();
+            Storage::disk('gallery')->put(
+                $file_name,
+                file_get_contents($img->getRealPath())
+            );
+        }
+        $post = Post::findOrFail($id)->update([
             'body'=> $request->body,
             'title'=> $request->title,
             'image'=> $request->image

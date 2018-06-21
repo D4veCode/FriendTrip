@@ -27,7 +27,7 @@
                             <th>Descripcion</th>
                             <th>Tipo Hab</th>
                             <th>Imagen</th>
-                            <th colspan="2">Actiones</th>
+                            <th colspan="2">Acciones</th>
                         </tr>
                         @foreach($hotels as $hot)
                         <tr>
@@ -43,6 +43,7 @@
                         </tr>
                         @endforeach
                     </table>
+                    {{ $hotels->links() }}
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Hotel;
-
+use Illuminate\Support\Facades\Storage;
 
 class HotelController extends Controller
 {   
@@ -48,13 +48,22 @@ class HotelController extends Controller
      */
     public function store(Request $request)
     {
+        $file_name = "sinimagen.png";
+        if($request->file('image')){
+            $img = $request->file('image');
+            $file_name = $img->getClientOriginalName();
+            Storage::disk('gallery')->put(
+                $file_name,
+                file_get_contents($img->getRealPath())
+            );
+        }
         $hotel = Hotel::create([
             'price'=>(double)$request->price,
             'name'=>$request->name,
             'location'=>$request->location,
             'room_type'=>$request->room_type,
             'description'=>$request->description,
-            'image'=>$request->image
+            'image'=>$file_name
 
         ]);
         return redirect()->route('hotels.index')->with('success','Hotel agregado.');
@@ -80,7 +89,16 @@ class HotelController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        $file_name = "sinimagen.png";
+        if($request->file('image')){
+            $img = $request->file('image');
+            $file_name = $img->getClientOriginalName();
+            Storage::disk('gallery')->put(
+                $file_name,
+                file_get_contents($img->getRealPath())
+            );
+        }
         $hotel = Hotel::findOrFail($id)->update([
             'price'=>(double)$request->price,
             'name'=>$request->name,

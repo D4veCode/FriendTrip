@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Gallery;
+use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
@@ -24,19 +25,19 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        $gallery = Gallery::paginate(15);
+        $galleries= Gallery::paginate(15);
 
-        return view('layouts.admin.gallery.index', compact('gallery'));
+        return view('layouts.admin.gallery.index', compact('galleries'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource. 
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('layouts.admin.create');
+        return view('layouts.admin.gallery.create');
     }
 
     /**
@@ -46,14 +47,23 @@ class GalleryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $file_name = "sinimagen.png";
+        if($request->file('image')){
+            $img = $request->file('image');
+            $file_name = $img->getClientOriginalName();
+            Storage::disk('gallery')->put(
+                $file_name,
+                file_get_contents($img->getRealPath())
+            );
+        }
         $photo = Gallery::create([
-            'image' => $request->image, 
+            'image' => $file_name, 
             'title' => $request->title, 
             'body' => $request->body
         ]);
 
-        return redirect()->route()->with('success', 'Foto agregada');
+        return redirect()->route('gallery.index')->with('success', 'Foto agregada');
     }
 
     /**
@@ -64,8 +74,8 @@ class GalleryController extends Controller
      */
     public function edit($id)
     {
-        $photo = Gallery::findOrFind($id);
-        return view('layouts.admin.gallery.edit', compact('photo'));
+        $gallery = Gallery::findOrFail($id);
+        return view('layouts.admin.gallery.edit', compact('gallery'));
     }
 
     /**
@@ -76,9 +86,18 @@ class GalleryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $photo = Gallery::findOrFail()->update([
-            'image' => $request->image, 
+    {   
+        $file_name = "sinimagen.png";
+        if($request->file('image')){
+            $img = $request->file('image');
+            $file_name = $img->getClientOriginalName();
+            Storage::disk('gallery')->put(
+                $file_name,
+                file_get_contents($img->getRealPath())
+            );
+        }
+        $photo = Gallery::findOrFail($id)->update([
+            'image' => $file_name, 
             'title' => $request->title, 
             'body' => $request->body
         ]);

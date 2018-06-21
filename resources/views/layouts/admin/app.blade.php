@@ -34,7 +34,22 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        @auth
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Opciones Admin
+                            </a>
 
+                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown1">
+                                <a href="{{route('flights.index')}}" class="dropdown-item">Flights</a>
+                                <a href="{{route('hotels.index')}}" class="dropdown-item">Hotels</a>
+                                <a href="{{route('subs.index')}}" class="dropdown-item">Subscribers</a>
+                                <a href="{{route('blog.index')}}" class="dropdown-item">Posts</a>
+                                <a href="{{route('gallery.index')}}" class="dropdown-item">Gallery</a>
+                                <a href="{{route('about.index')}}" class="dropdown-item">About</a>
+                            </div>
+                        </li>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->

@@ -20,25 +20,22 @@
                             </h4>
                             <ul class="list">
                                 <li>
-                                    <a href="index.html">GO TO HOME</a>
+                                <a href="{{route('index')}}">GO TO HOME</a>
                                 </li>
                                 <li>
-                                    <a href="products.html">FLIGHTS</a>
+                                    <a href="{{route('flights')}}">FLIGHTS</a>
                                 </li>
                                 <li>
-                                    <a href="products.html">HOTELS</a>
+                                    <a href="{{route('hotels')}}">HOTELS</a>
                                 </li>
                                 <li>
-                                    <a href="products.html">TOURS</a>
+                                    <a href="{{route('blog')}}">READ BLOG</a>
                                 </li>
                                 <li>
-                                    <a href="blog.html">READ BLOG</a>
+                                    <a href="{{route('contact')}}">CONTACT US</a>
                                 </li>
                                 <li>
-                                    <a href="contact.html">CONTACT US</a>
-                                </li>
-                                <li>
-                                    <a href="support.html">ABOUT</a>
+                                    <a href="{{route('about')}}">ABOUT</a>
                                 </li>
                             </ul>
                         </div>

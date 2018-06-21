@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 use App\Flight;
 
 class FlightController extends Controller
@@ -47,7 +47,17 @@ class FlightController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $file_name = "sinimagen.png";
+        if($request->file('airline_image')){
+            $img = $request->file('airline_image');
+            $file_name = $img->getClientOriginalName();
+            Storage::disk('gallery')->put(
+                $file_name,
+                file_get_contents($img->getRealPath())
+            );
+        }
+
         $flight = Flight::create([
             'num_flight'=> $request->num_flight,
             'airline'=> $request->airline,
@@ -55,7 +65,7 @@ class FlightController extends Controller
             'destination'=> $request->destination,
             'date_dep'=> $request->date_dep,
             'date_des'=> $request->date_des,
-            'airline_image'=> $request->airline_image,
+            'airline_image'=> $file_name,
             'price'=> (double)$request->price,
         ]);
 
@@ -83,6 +93,15 @@ class FlightController extends Controller
      */
     public function update(Request $request, $id)
     {   
+        $file_name = "sinimagen.png";
+        if($request->file('airline_image')){
+            $img = $request->file('airline_image');
+            $file_name = $img->getClientOriginalName();
+            Storage::disk('gallery')->put(
+                $file_name,
+                file_get_contents($img->getRealPath())
+            );
+        }
         $flight = Flight::findOrFail($id)->update([
             'num_flight'=> $request->num_flight,
             'airline'=> $request->airline,
@@ -90,7 +109,7 @@ class FlightController extends Controller
             'destination'=> $request->destination,
             'date_dep'=> $request->date_dep,
             'date_des'=> $request->date_des,
-            'airline_image'=> $request->airline_image,
+            'airline_image'=> $file_name,
             'price'=> (double)$request->price,
         ]);
         return redirect()->route('flights.index')->with('success', 'Vuelo editado.');

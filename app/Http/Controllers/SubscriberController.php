@@ -29,7 +29,6 @@ class SubscriberController extends Controller
         $sub = Subscriber::create([
             'email' => $request->email,
             'name'=> $request->name
-
         ]);
         return redirect()->route('index');
     }
